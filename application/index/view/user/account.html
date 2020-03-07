@@ -3,37 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title>HUI 用户中心</title>
+<title>用户中心</title>
 <link rel="stylesheet" type="text/css" href="../css/hui.css" />
 </head>
 <body>
 <header class="hui-header">
     <div id="hui-back"></div>
-    <h1>HUI 用户中心</h1>
+    <h1>用户中心</h1>
 </header>
 <div class="hui-wrap">
-    <div class="hui-list" style="background:#FFFFFF; margin-top:28px;">
-        <a href="javascript:hui.toast('Hello Hcoder UI !');" style="height:auto; height:80px; padding-bottom:8px;">
-    		<div class="hui-list-icons" style="width:110px; height:80px;">
-    			<img src="../img/list/home.png" style="width:66px; margin:0px; border-radius:50%;" />
-    		</div>
-    		<div class="hui-list-text" style="height:79px; line-height:79px;">
-    			<div class="hui-list-text-content">
-    				Hcoder.net
-    			</div>
-    			<div class="hui-list-info">
-    				<span class="hui-icons hui-icons-right"></span>
-    			</div>
-    		</div>
-    	</a>
-    	<a href="javascript:hui.toast('Hello Hcoder UI !');">
-    		<div class="hui-list-text">
-    			账户余额 : 1000元 | 积分 : 2000
-    		</div>
-    	</a>
-    </div>
+	{if condition="$Request.session.uid eq null"}
 	<div class="hui-list" style="background:#FFFFFF; margin-top:28px;">
-		<a href="register" style="height:auto; height:80px; padding-bottom:8px;">
+		<a href="login" style="height:auto; height:80px; padding-bottom:8px;">
 			<div class="hui-list-icons" style="width:110px; height:80px;">
 				<img src="../img/list/home.png" style="width:66px; margin:0px; border-radius:50%;" />
 			</div>
@@ -62,6 +43,28 @@
 			</div>
 		</a>
 	</div>
+	{else /}
+	<div class="hui-list" style="background:#FFFFFF; margin-top:28px;">
+		<a href="javascript:hui.toast('Hello Hcoder UI !');" style="height:auto; height:80px; padding-bottom:8px;">
+			<div class="hui-list-icons" style="width:110px; height:80px;">
+				<img src="../img/list/home.png" style="width:66px; margin:0px; border-radius:50%;" />
+			</div>
+			<div class="hui-list-text" style="height:79px; line-height:79px;">
+				<div class="hui-list-text-content">
+				{$Request.session.username}
+				</div>
+				<div class="hui-list-info">
+					<span class="hui-icons hui-icons-right"></span>
+				</div>
+			</div>
+		</a>
+		<a href="#">
+			<div class="hui-list-text">
+			个人介绍！
+			</div>
+		</a>
+	</div>
+	{/if}
     <div class="hui-list" style="background:#FFFFFF; margin-top:28px;">
         <ul>
             <li>
@@ -118,13 +121,34 @@
            	</li>
         </ul>
     </div>
-
+	{if condition="$Request.session.uid neq null"}
     <div style="background:#FFFFFF; margin-top:28px;">
-        <button type="button" class="hui-button hui-button-large" onclick="hui.toast('退出');">
+        <button id="logout" type="button" class="hui-button hui-button-large" onclick="hui.toast('退出');">
         	<span class="hui-icons hui-icons-logoff"></span>退出系统
        	</button>
+		<input type="hidden" id="uid" value="{$Request.session.uid}">
     </div>
+	{/if}
 </div>
 <script type="text/javascript" src="../js/hui.js" charset="UTF-8"></script>
 </body>
+<script type="text/javascript">
+	hui('#logout').click(function () {
+		var uid=hui('#uid').val();
+		if (uid) {
+			hui.getJSON(
+					'logout?uid='+uid,
+					function(msg){
+						hui.upToast(msg.msg);
+						if (msg.success){
+							window.location.href='/user';
+						}
+					},
+					function(e){
+						hui.iconToast('读取消息失败', 'warn');
+					}
+			);
+		}
+	});
+</script>
 </html>

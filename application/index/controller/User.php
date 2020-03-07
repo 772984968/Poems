@@ -31,7 +31,7 @@ class User extends Base
         return $this->fetch();
     }
 
-//  用户注册
+    //  用户注册
     public function Register()
     {
         if ($this->request->isPost()) {
@@ -58,4 +58,18 @@ class User extends Base
         }
         return $this->fetch();
     }
+    //  用户退出
+    public function logout()
+    {
+        if ($this->request->isGet()) {
+            $data = $this->request->get();
+            $uid = $data['uid'];
+            if (!empty($uid)){
+                session(null);
+                return json(['code' => 200,'success'=>true, 'msg' => '退出成功！']);
+            }
+            return json(['code' => 400,'success'=>true, 'msg' => '退出失败！']);
+        }
+    }
+
 }
