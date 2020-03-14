@@ -49,7 +49,7 @@ class User extends Base
                 'status'=>1,
                 'head'=>'',
             ]);
-            if (!empty($rst)&&empty($id)){
+            if (!empty($rst)){
                 session('username', $register_user);
                 session('uid', $rst);
                 return json(['code' => 200,'success'=>true, 'msg' => '注册成功！']);

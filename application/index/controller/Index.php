@@ -33,5 +33,33 @@ class Index extends Base
         $this->assign('list', $rst);
         return $this->fetch();
     }
+    public function Create()
+    {
+        if ($this->request->isPost()){
+            $post=input('post.');
+            $types=[
+                '1'=>'唐朝',
+                '2'=>'宋朝',
+                '3'=>'其他',
+            ];
+            $rst=db('list')->insertGetId([
+                'type_id'=>$post['type'],
+                'biaoti'=>$post['biaoti'],
+                'author'=>$post['author'],
+                'content'=>$post['content'],
+                'dynasty'=>$types[$post['type']],
+                'comment'=>!empty($post['comment'])?$post['comment']:'',
+                'introduction'=>!empty($post['introduction'])?$post['introduction']:'',
+                'date'=>date('Y-m-d H:i:s'),
+                'src'=>'../img/medialist/1.jpg',
+                'uid'=>session('uid'),
+            ]);
+            if (!empty($rst)){
+                return json(['code' => 200,'success'=>true, 'msg' => '发布成功，请耐心等待管理审核！']);
+            }
+            return json(['code' => 400,'success'=>false, 'msg' => '发布失败，请稍后再试！']);
+        }
+        return $this->fetch();
+    }
 
 }
