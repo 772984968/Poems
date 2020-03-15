@@ -12,7 +12,6 @@
     <h1>用户注册</h1>
 </header>
 <div class="hui-wrap">
-    <div class="hui-center-title" style="margin-top:35px;"><h1 style="border:0px;">注册成为新用户</h1></div>
     <div style="margin:20px 10px; margin-bottom:15px;" class="hui-form" id="form1">
         <div class="hui-form-items">
             <div class="hui-form-items-title">用户名</div>
@@ -28,6 +27,18 @@
             <div class="hui-form-items-title">确认密码</div>
             <input type="password" class="hui-input hui-pwd-eye" placeholder="确认密码" checkType="sameWithId"
                    checkData="pwd" checkMsg="两次密码不一致" name="register_two_password"/>
+        </div>
+        <div class="hui-form-items">
+            <div class="hui-form-items-title">性别</div>
+            <div class="hui-form-radios">
+                <input type="radio" value="1" name="sex" id="c1" checked="checked" /><label for="c1">男</label>
+                <input type="radio" value="0" name="sex" id="c2" /><label for="c2">女</label>
+            </div>
+        </div>
+        <div class="hui-form-items">
+            <div class="hui-form-items-title">个人介绍</div>
+            <input type="text" class="hui-input hui-input-clear" placeholder="如：风流倜傥" checkType="string"
+                   checkData="2,20" checkMsg="个人介绍应为2-20个字符" name="introduction"/>
         </div>
     </div>
     <div style="padding:10px; padding-top:10px;">
