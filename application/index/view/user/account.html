@@ -45,9 +45,9 @@
 	</div>
 	{else /}
 	<div class="hui-list" style="background:#FFFFFF; margin-top:28px;">
-		<a href="javascript:hui.toast('Hello Hcoder UI !');" style="height:auto; height:80px; padding-bottom:8px;">
+		<a href="javascript:hui.toast('暂不开放 !');" style="height:auto; height:80px; padding-bottom:8px;">
 			<div class="hui-list-icons" style="width:110px; height:80px;">
-				<img src="../img/list/home.png" style="width:66px; margin:0px; border-radius:50%;" />
+				<img src="{$user.head}" style="width:66px; margin:0px; border-radius:50%;" />
 			</div>
 			<div class="hui-list-text" style="height:79px; line-height:79px;">
 				<div class="hui-list-text-content">
@@ -60,13 +60,15 @@
 		</a>
 		<a href="#">
 			<div class="hui-list-text">
-			个人介绍！
+				{$user.introduction}
 			</div>
 		</a>
 	</div>
 	{/if}
     <div class="hui-list" style="background:#FFFFFF; margin-top:28px;">
         <ul>
+			{notempty name="user"}
+			{if condition="$user.is_admin eq 1"}
             <li>
             	<a href="/manage">
             		<div class="hui-list-icons">
@@ -80,8 +82,23 @@
 		    		</div>
             	</a>
            	</li>
+			<li>
+				<a href="javascript:hui.toast('暂不开放');">
+					<div class="hui-list-icons">
+						<img src="../img/index/msg.png" />
+					</div>
+					<div class="hui-list-text">
+						评论管理
+						<div class="hui-list-info">
+							<span class="hui-icons hui-icons-right"></span>
+						</div>
+					</div>
+				</a>
+			</li>
+			{/if}
+			{/notempty}
             <li>
-            	<a href="javascript:void(0);">
+            	<a  id="mycollect">
             		<div class="hui-list-icons">
 		    			<img src="../img/index/start.png" />
 		    		</div>
@@ -93,21 +110,35 @@
 		    		</div>
             	</a>
            	</li>
+			<li>
+				<a  id="mylike">
+					<div class="hui-list-icons">
+						<img src="../img/index/fger.png" />
+					</div>
+					<div class="hui-list-text">
+						我的点赞
+						<div class="hui-list-info">
+							<span class="hui-icons hui-icons-right"></span>
+						</div>
+					</div>
+				</a>
+			</li>
+			<li>
+				<a id="comments" >
+					<div class="hui-list-icons">
+						<img src="../img/index/msg.png" />
+					</div>
+					<div class="hui-list-text">
+						评论
+						<div class="hui-list-info">
+							<span class="hui-icons hui-icons-right"></span>
+						</div>
+					</div>
+				</a>
+			</li>
+
            	<li>
-            	<a href="javascript:void(0);">
-            		<div class="hui-list-icons">
-		    			<img src="../img/list/order.png" />
-		    		</div>
-		    		<div class="hui-list-text">
-		    			我的订单
-		    			<div class="hui-list-info">
-		    				<span class="hui-icons hui-icons-right"></span>
-		    			</div>
-		    		</div>
-            	</a>
-           	</li>
-           	<li>
-            	<a href="javascript:void(0);">
+            	<a href="javascript:hui.toast('暂不开放');">
             		<div class="hui-list-icons">
 		    			<img src="../img/list/lishi.png" />
 		    		</div>
@@ -150,5 +181,30 @@
 			);
 		}
 	});
+</script>
+<script>
+	var uid=hui('#uid').val();
+	hui('#mycollect').click(function(){
+		if(!uid){
+			hui.upToast('请先登录');
+			return;
+		}
+		window.location.href='/mycollect';
+	});
+	hui('#mylike').click(function(){
+		if(!uid){
+			hui.upToast('请先登录');
+			return;
+		}
+		window.location.href='/mylike';
+	});
+	hui('#comments').click(function(){
+		if(!uid){
+			hui.upToast('请先登录');
+			return;
+		}
+		window.location.href='/comments';
+	});
+
 </script>
 </html>

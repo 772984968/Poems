@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>HUI 瀑布流样例</title>
+    <link rel="stylesheet" type="text/css" href="../css/hui.css"/>
+</head>
+
+
+<body style="background:#F4F5F6;">
+<header class="hui-header">
+    <div id="hui-back"></div>
+    <h1>我的收藏</h1>
+</header>
+<div class="hui-wrap">
+    <div style="padding:20px;">
+        <div class="hui-wrap">
+            <div class="hui-media-list" style="padding:10px;">
+                <ul>
+                    {volist name="list" id="vo"}
+                    <li style="margin-bottom:0px;">
+                        <a href="/detail?id={$vo.id}">
+                            <div class="hui-media-list-img" style="width: 35%;"><img style="height: 150px;"
+                                                                                     src="{$vo.src}"/></div>
+                            <div class="hui-media-content" style="width: 62%">
+                                <h1>{$vo.biaoti}</h1>
+                                <p>{$vo.content}</p>
+                            </div>
+                        </a>
+                    </li>
+                    <ul>
+                        <li>
+                            <a onclick="collect({$vo.a_id});"><span style="color: red"  class="hui-footer-icons hui-icons-star"></span></a>
+                        </li>
+                    </ul>
+                    {/volist}
+                </ul>
+                <div class="hui-pager hui-pager-center" style="padding:10px 30px;">
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <script type="text/javascript" charset="UTF-8" src="../js/hui.js"></script>
+    <script>
+        function collect(id) {
+            hui.postJSON(
+                'delcollect',
+                {
+                    'id':id
+
+                },
+                function(msg){
+                    if (msg.success){
+                        hui.upToast(msg.msg);
+                       window.location.href='/mycollect'
+                    }
+                },
+                function(e){
+                    hui.iconToast('读取消息失败', 'warn');
+                }
+            );
+
+
+        }
+    </script>
+    <script type="text/javascript">
+        function changeDom(index) {
+            index--;
+            hui('#cate a').eq(index).addClass('hui-segment-active').siblings().removeClass('hui-segment-active');
+        }
+
+        var uid = hui('#uid').val();
+        localStorage.uid = uid;
+
+        function create() {
+            if (!uid) {
+                hui.toast('请先登录');
+            } else {
+                window.location.href = '/create';
+            }
+        }
+
+
+    </script>
+
+</div>
+</body>
+</html>

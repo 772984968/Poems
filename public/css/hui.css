@@ -449,6 +449,6 @@ input[type="month"].hui-picker-valued:before,input[type="date"].hui-picker-value
 .hui-icons-search:before{content:'\e714';} .hui-icons-img-cut:before{content:'\e612';} .hui-icons-register:before{content:'\e677';} 
 .hui-icons-write:before{content:'\e646';} .hui-icons-logoff:before{content:'\e610';} .hui-icons-check:before{content:'\e866';} 
 .hui-icons-loading2:before{content:"\e61e";} .hui-icons-insert:before{content:"\e6ee";} .hui-icons-clone:before{content:"\e6dc";} 
-.hui-icons-remove:before{content:"\e656";} .hui-icons-edit:before{content:"\e600";} .hui-icons-like:before{content:"\e64a";} 
+.hui-icons-remove:before{content:"\e656";} .hui-icons-edit:before{content:"\e600";} .hui-icons-like:before{content:"\e64a";}
 .hui-icons-pause:before{content:"\e96b";} .hui-icons-play:before{content:"\e6b1";} .hui-icons-stop:before{content:"\e61b";} 
 .hui-icons-shopping-cart:before{content:"\e633";} .hui-icons-close:before{content:"\e617";}

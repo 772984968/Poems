@@ -68,7 +68,7 @@ hui('#submitBtn').click(function(){
             function(msg){
                 hui.upToast(msg.msg);
                 if (msg.success){
-                    // window.location.href='/';
+                     hui.back();
                 }
             },
             function(e){
