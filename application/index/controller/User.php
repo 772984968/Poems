@@ -72,4 +72,24 @@ class User extends Base
         }
     }
 
+    public function collect(){
+        if ($this->request->isPost()){
+            $rst=db('attention')->where([
+                'uid'=>session('uid'),
+                'list_id'=>input('list_id'),
+                'type'=>1,
+            ])->find();
+            if (!empty($rst))   return json(['code' => 200,'success'=>true, 'msg' => '已经收藏过了！']);
+            $rst=db('attention')->insertGetId([
+                'uid'=>session('uid'),
+                'type'=>1,
+                'list_id'=>input('list_id'),
+            ]);
+            if (!empty($rst)){
+                return json(['code' => 200,'success'=>true, 'msg' => '收藏成功！']);
+            }
+            return json(['code' => 500,'success'=>true, 'msg' => '收藏失败！']);
+        }
+    }
+
 }
