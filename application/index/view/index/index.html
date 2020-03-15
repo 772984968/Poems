@@ -24,22 +24,24 @@
 
         </div>
         <div class="hui-wrap">
-            <div class="hui-center-title" style="margin-top:22px;"><h1>媒体列表</h1></div>
             <div class="hui-media-list" style="padding:10px;">
                 <ul>
                     {volist name="list" id="vo"}
-                    <li>
+                    <li style="margin-bottom:0px;">
                         <a href="/detail?id={$vo.id}">
-                            <div class="hui-media-list-img"><img src="{$vo.src}"/></div>
-                            <div class="hui-media-content">
+                            <div class="hui-media-list-img" style="width: 35%;"><img style="height: 150px;"
+                                                                                     src="{$vo.src}"/></div>
+                            <div class="hui-media-content" style="width: 62%">
                                 <h1>{$vo.biaoti}</h1>
                                 <p>{$vo.content}</p>
                             </div>
-
                         </a>
-
                     </li>
-                    <div><a></a></div>
+                    <ul>
+                        <li>
+                            <a onclick="collect({$vo.id});"><span class="hui-footer-icons hui-icons-star"></span></a>
+                        </li>
+                    </ul>
                     {/volist}
                 </ul>
                 <div class="hui-pager hui-pager-center" style="padding:10px 30px;">
@@ -79,6 +81,33 @@
         hui('#nav-my').pointMsg();
         hui('#nav-news').pointMsg('hot', null, null, null, '1px');
         hui('#nav-forum').pointMsg(8);
+
+
+    </script>
+    <script>
+      function collect(list_id) {
+          if (localStorage.key(uid)){
+              hui.toast('请先登录');
+              return;
+          }
+          hui.postJSON(
+              'collect',
+              {
+                  'list_id':list_id
+
+              },
+              function(msg){
+                  if (msg.success){
+                      hui.upToast(msg.msg);
+                  }
+              },
+              function(e){
+                  hui.iconToast('读取消息失败', 'warn');
+              }
+          );
+
+
+      }
     </script>
     <script type="text/javascript">
         function changeDom(index) {
@@ -88,13 +117,16 @@
 
         var uid = hui('#uid').val();
         localStorage.uid = uid;
+
         function create() {
             if (!uid) {
                 hui.toast('请先登录');
-            }else {
-                window.location.href='/create';
+            } else {
+                window.location.href = '/create';
             }
         }
+
+
     </script>
 
 </div>

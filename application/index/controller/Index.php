@@ -16,7 +16,7 @@ class Index extends Base
             if ($vo['id']==$type) $types[$key]['active']='hui-segment-active';
 
         }
-        $list = Db::name('list')->where('type_id',$type)->paginate(2,false,
+        $list = Db::name('list')->where('type_id',$type)->paginate(10,false,
             ['query'=>[
                 'type'=>$type
             ]]);

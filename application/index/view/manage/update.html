@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>诗词管理</title>
+<link rel="stylesheet" type="text/css" href="../css/hui.css" />
+</head>
+<body style="background:#FCFCFC;">
+<header class="hui-header">
+    <div id="hui-back"></div>
+    <h1>诗词管理</h1>
+</header>
+<div class="hui-wrap">
+    <form style="padding:28px 10px;" class="hui-form" id="form1">
+        <div class="hui-form-items">
+        	<div class="hui-form-items-title">标题</div>
+            <input type="text" value="{$list.biaoti}" class="hui-input hui-input-clear" name="biaoti" placeholder="如：将进酒" checkType="string" checkData="2,10" checkMsg="标题应为2-10个字符" />
+        </div>
+        <div class="hui-form-items">
+            <div class="hui-form-items-title">作者</div>
+            <input type="text" value="{$list.author}" class="hui-input hui-input-clear"name="author" placeholder="如：李白" checkType="string" checkData="2,10" checkMsg="作者应为2-10个字符" />
+        </div>
+        <div class="hui-form-items">
+            <div class="hui-form-items-title">朝代</div>
+            <div class="hui-form-radios">
+                <input type="radio" value="1" name="type" id="c1" {eq name="list.type_id" value="1"}checked="checked"{/eq}  onchange="showSelectRes(this);" /><label for="c1">唐朝</label>
+                <input type="radio" value="2" name="type" id="c2" {eq name="list.type_id" value="2"}checked="checked"{/eq} onchange="showSelectRes(this);" /><label for="c2">宋朝</label>
+                <input type="radio" value="3" name="type" id="c3" {eq name="list.type_id" value="3"}checked="checked"{/eq} onchange="showSelectRes(this);" /><label for="c3">其他</label>
+            </div>
+        </div>
+        <div class="hui-form-items">
+            <div class="hui-form-items-title">内容</div>
+            <div class="hui-form-textarea">
+                <textarea placeholder="内容..." name="content"  checkType="string" checkData="2,1000"  checkMsg="内容不能为空">{$list.content}</textarea>
+            </div>
+        </div>
+        <div class="hui-form-items">
+            <div class="hui-form-items-title">译文及注释</div>
+            <div class="hui-form-textarea">
+                <textarea placeholder="译文及注释..." name="comment">{$list.comment}</textarea>
+            </div>
+        </div>
+        <div class="hui-form-items">
+            <div class="hui-form-items-title">诗人简介</div>
+            <div class="hui-form-textarea">
+                <textarea placeholder="诗人简介..." name="introduction">{$list.introduction}</textarea>
+            </div>
+        </div>
+        <div style="padding:15px 8px;">
+            <button type="button" class="hui-button hui-danger hui-fl" id="submitCancel">删除</button>
+            <button type="button" class="hui-button hui-primary hui-fr" id="submitBtn">审核通过</button>
+            <input hidden="hidden" id="list_id" name="id" value="{$list.id}">
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="../js/hui.js"></script>
+<script type="text/javascript" src="../js/hui-form.js"></script>
+<script type="text/javascript">
+hui.formInit();
+//表单元素数据收集演示
+hui('#submitBtn').click(function(){
+    var res = huiFormCheck('#form1');
+    //提交
+    if(res){
+        var data = hui.getFormData('#form1');
+        hui.postJSON(
+           'update',
+            data,
+            function(msg){
+                hui.upToast(msg.msg);
+                if (msg.success){
+                    // window.location.href='/';
+                }
+            },
+            function(e){
+                hui.iconToast('读取消息失败', 'warn');
+            }
+        );
+    }
+});
+
+//表单元素数据收集演示
+hui('#submitCancel').click(function(){
+
+    var list_id=hui('#list_id').val();
+        hui.postJSON(
+            'delete',
+            {
+                'id':list_id
+            },
+            function(msg){
+                hui.upToast(msg.msg);
+                if (msg.success){
+                     hui.back();
+                }
+            },
+            function(e){
+                hui.iconToast('读取消息失败', 'warn');
+            }
+        );
+
+});
+//获取复选框的值
+function showCheckRes(_selfBtn){
+    var vals = new Array();
+    hui(_selfBtn).parent().find('input').each(function(cObj){
+        if(cObj.checked){
+            vals.push(cObj.value);
+        }
+    });
+    console.log(vals);
+}
+//获取单选框的值
+function showSelectRes(_selfBtn){
+    var val;
+    hui(_selfBtn).parent().find('input').each(function(cObj){
+        if(cObj.checked){val = cObj.value;}
+    });
+    console.log(val);
+}
+
+</script>
+</body>
+</html>
