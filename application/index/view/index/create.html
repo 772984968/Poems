@@ -90,8 +90,8 @@ function showCheckRes(_selfBtn){
 //获取单选框的值
 function showSelectRes(_selfBtn){
     var val;
-    hui(_selfBtn).parent().find('input').each(function(cObj){
-        if(cObj.checked){val = cObj.value;}
+        hui(_selfBtn).parent().find('input').each(function(cObj){
+            if(cObj.checked){val = cObj.value;}
     });
     console.log(val);
 }
