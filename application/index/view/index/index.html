@@ -9,15 +9,25 @@
 
 
 <body style="background:#F4F5F6;">
+<header class="hui-header">
+    <div id="hui-back"></div>
+    <div id="hui-header-sreach">
+        <div id="hui-header-sreach-icon"></div>
+        <form><input type="search" id="searchKey" value="{$search}" onkeydown="if(event.keyCode==13)return false;" placeholder="关键字如：李白"/>
+        </form>
+    </div>
+    <div class="hui-header-sreach-txt" onclick="clearSearch();">清空</div>
+</header>
 <div class="hui-wrap">
-    <div style="padding:20px;">
+    <div style="padding:20px;">{empty name="search"}
         <div class="hui-segment" id="cate">
+
             {volist name="type" id="vo"}
             <a href="/index?type={$vo.id}" {notempty name="vo.active" }class="hui-segment-active" {/notempty}
             >{$vo.name}</a>
             {/volist}
-
         </div>
+        {/empty}
         <div class="hui-wrap">
             <div class="hui-media-list" style="padding:10px;">
                 <ul>
@@ -44,7 +54,9 @@
                     {/volist}
                 </ul>
                 <div class="hui-pager hui-pager-center" style="padding:10px 30px;">
+                    {empty name="search"}
                     {$list->render()}
+                    {/empty}
                 </div>
 
             </div>
@@ -151,5 +163,42 @@
     </script>
 
 </div>
+
 </body>
+<script type="text/javascript">
+    //监听搜索事件
+    document.getElementById('searchKey').addEventListener('keyup', function (e) {
+        if (e.keyCode == 13) {
+            searchNow();
+        }
+    });
+
+    function hotSearch(k) {
+        hui('#searchKey').val(k);
+        searchNow();
+    }
+
+    //核心搜索函数
+    function searchNow() {
+        document.activeElement.blur();
+        var kwd = hui('#searchKey').val();
+        kwd = kwd.trim();
+        if (kwd.length < 2) {
+            hui.toast('关键字至少2个字符');
+            hui('.hui-hot-sreach').show();
+            return;
+        }
+        //关闭热搜
+        hui('.hui-hot-sreach').hide();
+        hui.toast('搜索 ' + kwd);
+        window.location.href = '/index?search=' + kwd;
+    }
+
+    //清空
+    function clearSearch() {
+        hui('#searchKey').val('');
+        hui('.hui-hot-sreach').show();
+        window.location.href='/';
+    }
+</script>
 </html>
