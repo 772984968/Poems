@@ -75,5 +75,39 @@ class Manage extends Base
         }
         return $this->fetch();
     }
+    public function comments(){
+        //我评论的
+        $mycom = Db::query("SELECT
+	c.*, l.biaoti,u.username,l.id as lid
+FROM
+	b_comments AS c
+LEFT JOIN b_list AS l ON c.list_id = l.id
+LEFT JOIN b_user AS u ON c.uid = u.id
+WHERE	1 ORDER BY date desc ");
+
+        $this->assign('mycom', $mycom);
+        return $this->fetch();
+
+
+    }
+    public function infocomments()
+    {
+        if ($this->request->isPost()) {
+            $rst = db('comments')->where([
+                'id' => input('id'),
+            ])->delete();
+            if (!empty($rst)) return json(['code' => 200, 'success' => true, 'msg' => '删除成功！']);
+            return json(['code' => 500, 'success' => true, 'msg' => '删除失败！']);
+        }
+        $id = input('id');
+        //我评论的
+        $list = Db::query("SELECT	c.id,c.list_id,l.biaoti,c.comments,c.status, u.username FROM 	b_list AS l LEFT JOIN b_comments AS c ON l.id = c.list_id LEFT JOIN b_user AS u ON u.id = l.uid WHERE c.id=" . $id);
+
+        $this->assign('list', $list);
+        return $this->fetch();
+    }
+
+
+
 
 }

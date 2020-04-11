@@ -206,9 +206,9 @@ class User extends Base
                 'list_id' => input('list_id'),
             ]);
             if (!empty($rst)) {
-                return json(['code' => 200, 'success' => true, 'msg' => '评论成功，请耐心等待管理员审核！']);
+                return json(['code' => 200, 'success' => true, 'msg' => '评论成功']);
             }
-            return json(['code' => 500, 'success' => true, 'msg' => '品论失败失败！']);
+            return json(['code' => 500, 'success' => true, 'msg' => '评论失败！']);
         }
     }
 
@@ -231,7 +231,7 @@ class User extends Base
 
         //我评论的
         $mycom = Db::query("SELECT
-	c.*, l.biaoti,u.username
+	c.*, l.biaoti,u.username,l.id as lid
 FROM
 	b_comments AS c
 LEFT JOIN b_list AS l ON c.list_id = l.id
@@ -242,6 +242,7 @@ WHERE
         $commy = Db::query("SELECT 
 	c.*,
 	l.biaoti,
+	l.id as lid,
 	u.username
 FROM
 	b_comments AS c
@@ -255,21 +256,4 @@ WHERE
         return $this->fetch();
     }
 
-    //我评论的
-    public function infocomments()
-    {
-        if ($this->request->isPost()) {
-            $rst = db('comments')->where([
-                'id' => input('id'),
-            ])->delete();
-            if (!empty($rst)) return json(['code' => 200, 'success' => true, 'msg' => '删除成功！']);
-            return json(['code' => 500, 'success' => true, 'msg' => '删除失败！']);
-        }
-        $id = input('id');
-        //我评论的
-        $list = Db::query("SELECT	c.id,l.biaoti,c.comments,c.status, u.username FROM 	b_list AS l LEFT JOIN b_comments AS c ON l.id = c.list_id LEFT JOIN b_user AS u ON u.id = l.uid WHERE c.id=" . $id);
-
-        $this->assign('list', $list);
-        return $this->fetch();
-    }
 }

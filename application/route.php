@@ -18,4 +18,5 @@ Route::rule('mylike','index/user/mylike');
 Route::rule('dellike','index/user/dellike');
 Route::rule('comment','index/user/comment');
 Route::rule('comments','index/user/comments');
-Route::rule('infocomments','index/user/infocomments');
+Route::rule('infocomments','index/manage/infocomments');
+Route::rule('comments_manage','index/manage/comments');

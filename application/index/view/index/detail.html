@@ -28,70 +28,121 @@
     </div>
     <div class="hui-content" style="padding:10px;">
         <h2>{$list.dynasty}:{$list.author}</h2>
-		<div class="hui-list-icons" style=" width: 100%;text-align: center;	">
-			<img src="{$user.head}"  style=" width: 50%;height: 80px; margin:0px; border-radius:50%;" />
-		</div>
+        <div class="hui-list-icons" style=" width: 100%;text-align: center;	">
+            <img src="{$user.head}" style=" width: 50%;height: 80px; margin:0px; border-radius:50%;"/>
+        </div>
         <p>{$list.content}</p>
     </div>
-	<div class="hui-content" style="padding:10px;">
-		<h2>译文.注释</h2>
-		<img src="{$list.src}"/>
-		<p>{$list.comment}</p>
-	</div>
-	<div class="hui-content" style="padding:10px;">
-		<h2>诗人简介</h2>
-		<p>{$list.introduction}</p>
-	</div>
-	<div class="hui-common-title" style="margin-top:15px;">
-		<div class="hui-common-title-line"></div>
-		<div class="hui-common-title">{$user.username}上传</div>
-		<div class="hui-common-title-line"></div>
-	</div>
+    <div class="hui-content" style="padding:10px;">
+        <h2>译文.注释</h2>
+        <img src="{$list.src}"/>
+        <p>{$list.comment}</p>
+    </div>
+    <div class="hui-content" style="padding:10px;">
+        <h2>诗人简介</h2>
+        <p>{$list.introduction}</p>
+    </div>
+    <div class="hui-common-title" style="margin-top:15px;">
+        <div class="hui-common-title-line"></div>
+        <div class="hui-common-title">{$user.username}上传</div>
+        <div class="hui-common-title-line"></div>
+    </div>
 	<div class="hui-accordion">
-		<div class="hui-accordion-title">精彩评论</div>
 		<button type="button" class="hui-button hui-button-large" id="btn3" style="margin-top:15px;">发表评论</button>
-		<input type="hidden" id="uid" value="{$Request.session.uid}">
-		<input type="hidden" id="list_id" value="{$list.id}">
-		<div class="hui-accordion-content hui-list">
-			<ul>
-				<li><div class="hui-list-text">test2...</div></li>
-				<li><div class="hui-list-text">test2...</div></li>
-				<li><div class="hui-list-text">test2...</div></li>
-				<li><div class="hui-list-text">test2...</div></li>
-			</ul>
-		</div>
+        <input type="hidden" id="uid" value="{$Request.session.uid}">
+        <input type="hidden" id="list_id" value="{$list.id}">
 	</div>
+    <div class="hui-common-title" style="margin-top:28px;">
+        <div class="hui-common-title-line"></div>
+        <div class="hui-common-title-txt">精彩评论</div>
+
+        <div class="hui-common-title-line"></div>
+    </div>
+    <div>
+        <table style="width: 100%; height: auto;">
+            <tr>
+                <td style="width: 10%;text-align: right">
+                    <img src="../img/list/home.png" style="width:50px; height: 40px; margin:0px; border-radius:50%;"/>
+                </td>
+                <td style="text-align: left;width: 30%">
+                    name
+                </td>
+                <td style="text-align: right;width: 60%;">
+                    <span style="color: grey">2020-03-06</span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="width: 100%;">
+                    <div class="hui-accordion">
+                        <div class="hui-accordion-title">写的真不错</div>
+                        <div class="hui-accordion-content hui-list">
+                            <ul>
+                                <li>
+                                    <div class="hui-list-text" id="btn5">
+                                        pop 菜单
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="hui-list-text">test1...</div>
+                                </li>
+                                <li>
+                                    <div class="hui-list-text">test1...</div>
+                                </li>
+                                <li>
+                                    <div class="hui-list-text">test1...</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </td>
+
+            </tr>
+			<tr>
+				<td colspan="3" style="width: 100%;text-align: right">
+						<a href="#" style="color: grey" >回复</a>
+				</td>
+
+			</tr>
+        </table>
+    </div>
 </div>
 </body>
 <script src="../js/hui.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" src="../js/hui-accordion.js"></script>
 <script type="text/javascript">
-	 hui.accordion(true, false);
-	 hui('#btn3').click(function(){
-	 	var uid=hui('#uid').val();
-	 	var list_id=hui('#list_id').val();
-	 	console.log(uid);
-	 	if (!uid){
-	 		hui.upToast('请先登录');
-	 		return;
-		}
-		 hui.prompt('请输入您的精彩评论', ['取消','确定'], function(name){
-			 hui.postJSON(
-					 'comment',
-					 {
-						 'list_id': list_id,
-						 'comments': name
-					 },
-					 function (msg) {
-						 if (msg.success) {
-							 hui.upToast(msg.msg);
-						 }
-					 },
-					 function (e) {
-						 hui.iconToast('读取消息失败', 'warn');
-					 }
-			 );
-		 }, '例如 : 为你点赞', '',function(){console.log('您点击了取消')});
-	 });
+    hui.accordion(true, true);
+    hui('#btn3').click(function () {
+        var uid = hui('#uid').val();
+        var list_id = hui('#list_id').val();
+        console.log(uid);
+        if (!uid) {
+            hui.upToast('请先登录');
+            return;
+        }
+        hui.prompt('请输入您的精彩评论', ['取消', '确定'], function (name) {
+            hui.postJSON(
+                'comment',
+                {
+                    'list_id': list_id,
+                    'comments': name
+                },
+                function (msg) {
+                    if (msg.success) {
+                        hui.upToast(msg.msg);
+                    }
+                },
+                function (e) {
+                    hui.iconToast('读取消息失败', 'warn');
+                }
+            );
+        }, '例如 : 为你点赞', '', function () {
+            console.log('您点击了取消')
+        });
+    });
+</script>
+<script src="../js/hui-popover-msg.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    var menu = '<div class="hui-list" style="border:0px;"><a>回复</a><a>删除</a></div>';
+    hui('#btn5').popoverMsg('right', 'up', menu, 220, 150);
 </script>
 </html>
