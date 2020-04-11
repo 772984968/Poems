@@ -19,13 +19,13 @@ class Index extends Base
             if ($vo['id'] == $type) $types[$key]['active'] = 'hui-segment-active';
 
         }
-        if (!empty($search)){
-            $where=" status=1 and author like '%{$search}%' or biaoti like '%{$search}%' or content like '%{$search}%'";
-            $sql='select * from b_list where  '.$where;
-            $list=Db::query($sql);
+        if (!empty($search)) {
+            $where = " status=1 and author like '%{$search}%' or biaoti like '%{$search}%' or content like '%{$search}%'";
+            $sql = 'select * from b_list where  ' . $where;
+            $list = Db::query($sql);
 
-        }else{
-            $search='';
+        } else {
+            $search = '';
             $list = Db::name('list')->where([
                 'type_id' => $type,
                 'status' => 1
@@ -34,6 +34,7 @@ class Index extends Base
                     'type' => $type
                 ]]);
         }
+
         $this->assign('search', $search);
         $this->assign('list', $list);
         $this->assign('type', $types);
@@ -50,13 +51,34 @@ class Index extends Base
             'id' => $rst['uid']
         ])->find();
 
-        $comments = db('comments')->where([
-            'uid' => session('uid'),
-            'list_id' => $list_id,
-            'status' => 1,
-        ])->select();
-
+        $comments = Db::query("SELECT
+	b_comments.*,b_user.head,b_user.username,b_list.uid as author_id
+FROM
+	b_comments
+LEFT JOIN b_user on b_user.id=b_comments.uid
+LEFT JOIN b_list on b_comments.list_id=b_list.id
+WHERE
+	list_id =" . $list_id." ORDER BY b_comments.id desc");
         $this->assign('list', $rst);
+        foreach ($comments as $key => $comment) {
+            $recomment = Db::query("SELECT
+	*
+FROM
+	b_recomments
+LEFT JOIN b_user ON b_user.id=b_recomments.reply_id
+WHERE
+	 comment_id = " . $comment['id'] . "  ORDER BY b_recomments.id desc");
+
+            foreach ($recomment as $k=>$value){
+                if ($value['reply_id']==$comment['author_id'])
+                $recomment[$k]['username']='<span style="color: red">作者</span>';
+            }
+            if ($comment['uid']==$comment['author_id']){
+                $comments[$key]['username']='<span style="color: red">作者</span>';
+            }
+            $comments[$key]['recomments'] = $recomment;
+        }
+        $this->assign('comments', $comments);
         $this->assign('user', $user);
         return $this->fetch();
     }
@@ -91,6 +113,10 @@ class Index extends Base
             }
             return json(['code' => 400, 'success' => false, 'msg' => '发布失败，请稍后再试！']);
         }
+        return $this->fetch();
+    }
+
+    public function hot(){
         return $this->fetch();
     }
 

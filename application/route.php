@@ -20,3 +20,7 @@ Route::rule('comment','index/user/comment');
 Route::rule('comments','index/user/comments');
 Route::rule('infocomments','index/manage/infocomments');
 Route::rule('comments_manage','index/manage/comments');
+//回复内容
+Route::rule('recomment','index/user/recomment');
+//通告
+Route::rule('hot','index/index/hot');

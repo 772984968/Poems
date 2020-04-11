@@ -44,10 +44,10 @@
                     <ul>
                         <li>
                             <a onclick="collect({$vo.id});"><span class="hui-footer-icons hui-icons-star"></span></a>
-                            <a onclick="like({$vo.id});"><span style="color: grey"
+                            <a onclick="like({$vo.id});"><span style="color: red"
                                                                class="hui-footer-icons hui-icons-like"></span></a>
-                            <a href="/detail?id={$vo.id}.html"><span
-                                                               class="hui-footer-icons hui-icons-msg">56</span></a>
+                            <a href="/detail?id={$vo.id}"><span
+                                                               class="hui-footer-icons hui-icons-msg"></span></a>
                         </li>
                     </ul>
                     {/volist}
@@ -67,28 +67,30 @@
             <div class="hui-footer-icons hui-icons-home"></div>
             <div class="hui-footer-text">首页</div>
         </a>
-        <a href="javascript:hui.toast('热门');" id="nav-news">
+        <a href="#" onclick="hot();" id="nav-news">
             <div class="hui-footer-icons hui-icons-news"></div>
-            <div class="hui-footer-text">热门</div>
+            <div class="hui-footer-text">通告</div>
         </a>
         <div style="width:20%; text-align:center;" class="hui-fl">
             <img src="../img/index/create.png" height="35" onclick="create();"/>
             <input type="hidden" id="uid" value="{$Request.session.uid}">
         </div>
-        <a href="javascript:hui.toast('消息');" id="nav-forum">
+        <a href="#" onclick="message()" id="nav-forum">
             <div class="hui-footer-icons hui-icons-forum"></div>
             <div class="hui-footer-text">消息</div>
         </a>
         <a href="/user" id="nav-my">
             <div class="hui-footer-icons hui-icons-my"></div>
             <div class="hui-footer-text">我的</div>
+
+
         </a>
     </div>
     <script type="text/javascript" charset="UTF-8" src="../js/hui.js"></script>
     <script type="text/javascript">
         hui('#nav-my').pointMsg();
         hui('#nav-news').pointMsg('hot', null, null, null, '1px');
-        hui('#nav-forum').pointMsg(8);
+        hui('#nav-forum').pointMsg();
 
 
     </script>
@@ -139,6 +141,18 @@
             );
 
 
+        }
+        
+        function message() {
+            if (localStorage.key(uid)) {
+                hui.toast('请先登录');
+                return;
+            }
+            window.location.href='/comments';
+
+        }
+        function hot() {
+            window.location.href='/hot'
         }
     </script>
     <script type="text/javascript">
