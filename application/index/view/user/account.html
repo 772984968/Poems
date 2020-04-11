@@ -7,9 +7,13 @@
 <link rel="stylesheet" type="text/css" href="../css/hui.css" />
 </head>
 <body>
+
 <header class="hui-header">
-    <div id="hui-back"></div>
-    <h1>用户中心</h1>
+
+  <a href="/" style="width:44px; height:44px; font-family:'hui-font'; line-height:44px; text-align:center; flex-shrink:0;">
+	  <span class="hui-icons hui-icons-left"></span>
+  </a>
+  <h1>用户中心</h1>
 </header>
 <div class="hui-wrap">
 	{if condition="$Request.session.uid eq null"}
@@ -83,7 +87,7 @@
             	</a>
            	</li>
 			<li>
-				<a href="javascript:hui.toast('暂不开放');">
+				<a href="/comments_manage">
 					<div class="hui-list-icons">
 						<img src="../img/index/msg.png" />
 					</div>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    <title>评论</title>
+    <title>我的评论</title>
     <link rel="stylesheet" type="text/css" href="../css/hui.css"/>
 </head>
 
@@ -11,7 +11,7 @@
 <body style="background:#F4F5F6;">
 <header class="hui-header">
     <div id="hui-back"></div>
-    <h1>评论</h1>
+    <h1>我的评论</h1>
 </header>
 <div class="hui-wrap">
     <div style="padding:5px 0px;">
@@ -26,18 +26,18 @@
                         {volist name="mycom" id="vo"}
                         <li >
                             <a href="#">
-                                <div class="hui-list-text">{$vo.date}评论了<<{$vo.biaoti}>></div>
+                                <div class="hui-list-text">{$vo.date}</div>
                             </a>
                         </li>
                         <li>
-                            <a href="/infocomments?id={$vo.id}">
+                            <a href="/detail?id={$vo.lid}">
                                 <div class="hui-list-text">
                                     <div class="hui-list-text-content">
                                         {$vo.comments}
                                     </div>
                                     <div class="hui-list-info">
-                                        详情 <span class="hui-icons hui-icons-right"></span>
-                                    </div>
+                                    详情 <span class="hui-icons hui-icons-right"></span>
+                                </div>
                                 </div>
                             </a>
                         </li>
@@ -47,11 +47,11 @@
                         {volist name="commy" id="vo"}
                         <li >
                             <a href="#">
-                                <div class="hui-list-text">{$vo.username}:{$vo.date}评论了<<{$vo.biaoti}>></div>
+                                <div class="hui-list-text">{$vo.date}</div>
                             </a>
                         </li>
                         <li>
-                            <a href="/infocomments?id={$vo.id}">
+                            <a href="/detail?id={$vo.lid}">
                                 <div class="hui-list-text">
                                     <div class="hui-list-text-content">
                                         {$vo.comments}
