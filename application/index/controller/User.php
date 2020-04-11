@@ -211,6 +211,23 @@ class User extends Base
             return json(['code' => 500, 'success' => true, 'msg' => '评论失败！']);
         }
     }
+    public function recomment()
+    {
+        if ($this->request->isPost()) {
+            $rst = db('recomments')->insertGetId([
+                'reply_id' => session('uid'),
+                'comment_id' => input('comment_id'),
+                'comments' => input('comments'),
+                'date' => date('Y-m-d H:i:s'),
+                'status' => 0,
+                'list_id' => input('list_id'),
+            ]);
+            if (!empty($rst)) {
+                return json(['code' => 200, 'success' => true, 'msg' => '回复成功']);
+            }
+            return json(['code' => 500, 'success' => true, 'msg' => '回复失败！']);
+        }
+    }
 
     public function comments()
     {

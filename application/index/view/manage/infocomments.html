@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>诗词管理</title>
+<link rel="stylesheet" type="text/css" href="../css/hui.css" />
+</head>
+<body style="background:#FCFCFC;">
+<header class="hui-header">
+    <div id="hui-back"></div>
+    <h1>评论管理</h1>
+</header>
+<div class="hui-wrap">
+    {volist name="list" id="vo"}
+    <form style="padding:28px 10px;" class="hui-form" id="form1">
+        <div class="hui-form-items">
+        	<div class="hui-form-items-title">评论文章</div>
+            <a href="/detail?id={$vo.list_id}">{$vo.biaoti}<span class="hui-icons hui-icons-right"></span></a>
+
+        </div>
+        <div class="hui-form-items">
+            <div class="hui-form-items-title">所属用户</div>
+            <input type="text" value="{$vo.username}" class="hui-input hui-input-clear"name="author" placeholder="如：李白" checkType="string" checkData="2,10" checkMsg="作者应为2-10个字符" />
+        </div>
+        <div class="hui-form-items">
+            <div class="hui-form-items-title">评论内容</div>
+            <div class="hui-form-textarea">
+                <textarea placeholder="内容..." name="content"  checkType="string" checkData="2,1000"  checkMsg="内容不能为空">{$vo.comments}</textarea>
+            </div>
+        </div>
+
+        <div style="padding:15px 8px;">
+            <button type="button" class="hui-button hui-danger hui-fl" id="submitCancel">删除</button>
+            <input hidden="hidden" id="id" name="id" value="{$vo.id}">
+        </div>
+    </form>
+    {/volist}
+</div>
+<script type="text/javascript" src="../js/hui.js"></script>
+<script type="text/javascript" src="../js/hui-form.js"></script>
+<script type="text/javascript">
+//表单元素数据收集演示
+hui('#submitCancel').click(function(){
+    var id=hui('#id').val();
+        hui.postJSON(
+            'infocomments',
+            {
+                'id':id
+            },
+            function(msg){
+                hui.upToast(msg.msg);
+                if (msg.success){
+                     hui.back();
+                }
+            },
+            function(e){
+                hui.iconToast('读取消息失败', 'warn');
+            }
+        );
+
+});
+</script>
+</body>
+</html>

@@ -60,37 +60,33 @@
     </div>
     <div>
         <table style="width: 100%; height: auto;">
+            {volist name="comments" id="vo"}
             <tr>
                 <td style="width: 10%;text-align: right">
-                    <img src="../img/list/home.png" style="width:50px; height: 40px; margin:0px; border-radius:50%;"/>
+                    <img src="{$vo.head}" style="width:50px; height: 40px; margin:0px; border-radius:50%;"/>
                 </td>
                 <td style="text-align: left;width: 30%">
-                    name
+                    {$vo.username}
                 </td>
                 <td style="text-align: right;width: 60%;">
-                    <span style="color: grey">2020-03-06</span>
+                    <span style="color: grey">{$vo.date}</span>
                 </td>
             </tr>
             <tr>
                 <td colspan="3" style="width: 100%;">
                     <div class="hui-accordion">
-                        <div class="hui-accordion-title">写的真不错</div>
+                        <div class="hui-accordion-title">{$vo.comments}</div>
                         <div class="hui-accordion-content hui-list">
                             <ul>
-                                <li>
-                                    <div class="hui-list-text" id="btn5">
-                                        pop 菜单
+                                {volist name="vo.recomments" id="voo"}
+                                <li >
+                                    <div class="hui-list-text">
+                                        <p><img src="{$voo.head}" style="width:50px; height: 40px; margin:0px; border-radius:50%;"/> {$voo.username}</p>
+                                    {$voo.comments}
                                     </div>
+
                                 </li>
-                                <li>
-                                    <div class="hui-list-text">test1...</div>
-                                </li>
-                                <li>
-                                    <div class="hui-list-text">test1...</div>
-                                </li>
-                                <li>
-                                    <div class="hui-list-text">test1...</div>
-                                </li>
+                                {/volist}
                             </ul>
                         </div>
                     </div>
@@ -99,10 +95,12 @@
             </tr>
 			<tr>
 				<td colspan="3" style="width: 100%;text-align: right">
-						<a href="#" style="color: grey" >回复</a>
+						<a href="#" onclick="reply({$vo.id})" style="color: grey" >评论</a>
+
 				</td>
 
 			</tr>
+            {/volist}
         </table>
     </div>
 </div>
@@ -139,10 +137,37 @@
             console.log('您点击了取消')
         });
     });
+
 </script>
 <script src="../js/hui-popover-msg.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
-    var menu = '<div class="hui-list" style="border:0px;"><a>回复</a><a>删除</a></div>';
-    hui('#btn5').popoverMsg('right', 'up', menu, 220, 150);
+    function reply(_comment_id) {
+        var uid = hui('#uid').val();
+        var list_id = hui('#list_id').val();
+        if (!uid) {
+            hui.upToast('请先登录');
+            return;
+        }
+        hui.prompt('请输入您的评论内容', ['取消', '确定'], function (name) {
+            hui.postJSON(
+                'recomment',
+                {
+                    'list_id': list_id,
+                    'comment_id': _comment_id,
+                    'comments': name,
+                },
+                function (msg) {
+                    if (msg.success) {
+                        hui.upToast(msg.msg);
+                    }
+                },
+                function (e) {
+                    hui.iconToast('读取消息失败', 'warn');
+                }
+            );
+        }, '例如 : 为你点赞', '', function () {
+            console.log('您点击了取消')
+        });
+    }
 </script>
 </html>
