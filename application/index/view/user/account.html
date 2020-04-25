@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title>用户中心</title>
+<title>个人中心</title>
 <link rel="stylesheet" type="text/css" href="../css/hui.css" />
 </head>
 <body>
@@ -13,7 +13,7 @@
   <a href="/" style="width:44px; height:44px; font-family:'hui-font'; line-height:44px; text-align:center; flex-shrink:0;">
 	  <span class="hui-icons hui-icons-left"></span>
   </a>
-  <h1>用户中心</h1>
+  <h1>个人中心</h1>
 </header>
 <div class="hui-wrap">
 	{if condition="$Request.session.uid eq null"}
@@ -133,7 +133,7 @@
 						<img src="../img/index/msg.png" />
 					</div>
 					<div class="hui-list-text">
-						评论
+						我的评论
 						<div class="hui-list-info">
 							<span class="hui-icons hui-icons-right"></span>
 						</div>
@@ -141,19 +141,7 @@
 				</a>
 			</li>
 
-           	<li>
-            	<a href="javascript:hui.toast('暂不开放');">
-            		<div class="hui-list-icons">
-		    			<img src="../img/list/lishi.png" />
-		    		</div>
-		    		<div class="hui-list-text">
-		    			历史足迹
-		    			<div class="hui-list-info">
-		    				<span class="hui-icons hui-icons-right"></span>
-		    			</div>
-		    		</div>
-            	</a>
-           	</li>
+           
         </ul>
     </div>
 	{if condition="$Request.session.uid neq null"}
